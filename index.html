@@ -1,0 +1,192 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Academic Companion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- React CDN -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(90deg, #1e3a8a, #0ea5e9);
+}
+
+.card {
+    background: rgba(30, 41, 59, 0.8);
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #0ea5e9;
+    color: white;
+    cursor: pointer;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-right: 10px;
+}
+
+.progress-bar {
+    background: #334155;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 20px;
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.chatbox {
+    height: 150px;
+    overflow-y: auto;
+    background: #020617;
+    padding: 10px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🤖 AI Academic Companion</h1>
+    <p>Smart Study • Better CGPA • Stronger Skills</p>
+</header>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function App() {
+    const [marks, setMarks] = React.useState("");
+    const [cgpa, setCgpa] = React.useState("");
+    const [messages, setMessages] = React.useState([
+        {from: "AI", text: "Hello! Ask me anything 🎓"}
+    ]);
+    const [input, setInput] = React.useState("");
+
+    const predict = () => {
+        let value = (marks / 10).toFixed(2);
+        setCgpa(value);
+    };
+
+    const sendMessage = () => {
+        let newMessages = [...messages, {from: "You", text: input}];
+
+        let reply = "Focus on weak subjects and revise daily!";
+        if (input.toLowerCase().includes("today")) {
+            reply = "Revise Maths + Practice Coding today 🚀";
+        }
+
+        newMessages.push({from: "AI", text: reply});
+        setMessages(newMessages);
+        setInput("");
+    };
+
+    return (
+        <div className="container">
+
+            {/* Dashboard */}
+            <div className="card">
+                <h2>📊 Dashboard</h2>
+                <p>CGPA: <b>8.2</b> → Target: <b>9.0</b></p>
+                <div className="progress-bar">
+                    <div className="progress" style={{width: "75%"}}></div>
+                </div>
+                <p>Semester Progress: 75%</p>
+            </div>
+
+            {/* Predictor */}
+            <div className="card">
+                <h2>📈 CGPA Predictor</h2>
+                <input 
+                    value={marks} 
+                    onChange={(e)=>setMarks(e.target.value)} 
+                    placeholder="Enter marks"
+                />
+                <button onClick={predict}>Predict</button>
+                <p>Predicted CGPA: {cgpa}</p>
+            </div>
+
+            {/* Planner */}
+            <div className="card">
+                <h2>📚 Study Planner</h2>
+                <ul>
+                    <li>⚠️ Revise Maths</li>
+                    <li>💻 Coding Practice</li>
+                    <li>📘 Mini Project</li>
+                </ul>
+            </div>
+
+            {/* Skills */}
+            <div className="card">
+                <h2>🚀 Skills</h2>
+                <ul>
+                    <li>Python</li>
+                    <li>CAD</li>
+                    <li>Communication</li>
+                </ul>
+            </div>
+
+            {/* AI Chat */}
+            <div className="card">
+                <h2>🤖 AI Assistant</h2>
+                <div className="chatbox">
+                    {messages.map((msg, i) => (
+                        <p key={i}><b>{msg.from}:</b> {msg.text}</p>
+                    ))}
+                </div>
+                <input 
+                    value={input}
+                    onChange={(e)=>setInput(e.target.value)}
+                    placeholder="Ask something..."
+                />
+                <button onClick={sendMessage}>Send</button>
+            </div>
+
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+
+</body>
+</html>
+```
